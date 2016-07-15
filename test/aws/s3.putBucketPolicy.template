@@ -4,10 +4,6 @@
     "CFHelperStackName": {
       "Type": "String",
       "Description": "The name of the stack where you installed the CloudFormation helper functions. See https://github.com/gilt/cloudformation-helpers."
-    },
-    "S3Bucket": {
-      "Type": "String",
-      "Description": "The name of the S3 bucket where to put the object. Must already exist."
     }
   },
   "Resources": {
@@ -31,8 +27,8 @@
       "Type": "Custom::S3PutBucketPolicy",
       "Properties": {
         "ServiceToken": { "Fn::GetAtt" : ["CFHelper", "S3PutBucketPolicyFunctionArn"] },
-        "Bucket": { "Ref": "S3Bucket" },
-        "Policy": "{ \"Version\": \"2008-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"Service\": \"ses.amazonaws.com\" }, \"Action\": \"s3:PutObject\", \"Resource\": \"arn:aws:s3:::tjdudududu/*\", \"Condition\": { \"StringEquals\": { \"aws:Referer\": \"498397240612\" } } } ] }"
+        "Bucket": "my-test-bucket321",
+        "Policy": "{ \"Version\": \"2008-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"Service\": \"ses.amazonaws.com\" }, \"Action\": \"s3:PutObject\", \"Resource\": \"arn:aws:s3:::my-test-bucket321/*\" } ] }"
       },
       "DependsOn": [
         "CFHelper"

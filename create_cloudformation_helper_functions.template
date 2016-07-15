@@ -329,6 +329,62 @@
         "S3PutObjectFunctionRole"
       ]
     },
+    "S3PutBucketPolicyFunctionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version" : "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [ "lambda.amazonaws.com" ]
+              },
+              "Action": [ "sts:AssumeRole" ]
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          { "Ref": "RoleBasePolicy" }
+        ],
+        "Policies": [
+          {
+            "PolicyName": "S3PolicyWriter",
+            "PolicyDocument": {
+              "Version" : "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:ListBucket",
+                    "s3:PutBucketPolicy",
+                    "s3:DeleteBucketPolicy"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "S3PutBucketPolicyFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "com.gilt.public.backoffice",
+          "S3Key": "lambda_functions/cloudformation-helpers.zip"
+        },
+        "Description": "Used to put S3 bucket policy.",
+        "Handler": "aws/s3.putBucketPolicy",
+        "Role": {"Fn::GetAtt" : [ "S3PutBucketPolicyFunctionRole", "Arn" ] },
+        "Runtime": "nodejs4.3",
+        "Timeout": 30
+      },
+      "DependsOn": [
+        "S3PutBucketPolicyFunctionRole"
+      ]
+    },
     "SnsSubscribeFunctionRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -409,6 +465,10 @@
     "S3PutObjectFunctionArn": {
       "Description": "The ARN of the S3PutObjectFunction, for use in other CloudFormation templates.",
       "Value": { "Fn::GetAtt" : ["S3PutObjectFunction", "Arn"] }
+    },
+    "S3PutBucketPolicyFunctionArn": {
+      "Description": "The ARN of the S3PutBucketPolicyFunction, for use in other CloudFormation templates.",
+      "Value": { "Fn::GetAtt" : ["S3PutBucketPolicyFunction", "Arn"] }
     }
   }
 }

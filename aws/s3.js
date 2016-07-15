@@ -47,3 +47,34 @@ exports.putObject = function(event, context) {
   handler = new PutObject(event, context);
   handler.handle();
 }
+
+// Exposes the S3.putBucketPolicy API method
+function PutBucketPolicy(event, context) {
+  base.Handler.call(this, event, context);
+}
+PutBucketPolicy.prototype = Object.create(base.Handler.prototype);
+PutBucketPolicy.prototype.handleCreate = function() {
+  var p = this.event.ResourceProperties;
+  delete p.ServiceToken;
+  return s3.putBucketPolicyAsync(p)
+    .then(function() {
+      return {
+        BucketName : p.Bucket
+      }
+    });
+}
+PutBucketPolicy.prototype.handleDelete = function(referencedData) {
+  return Promise.try(function() {
+    if(referencedData) {
+      return s3.deleteBucketPolicyAsync({
+        Bucket : referencedData.BucketName
+      });
+    }
+  });
+}
+exports.putBucketPolicy = function(event, context) {
+  console.log(JSON.stringify(event));
+  handler = new PutBucketPolicy(event, context);
+  handler.handle();
+}
+

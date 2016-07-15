@@ -270,6 +270,25 @@ S3PutObjectFunctionArn
 [s3.putObject.template](test/aws/s3.putObject.template)
 
 
+### Put S3 Bucket Policy
+
+Mirrors the [S3.putBucketPolicy API method](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putBucketPolicy-property).
+
+This will replace the existing policy if any is already configured.
+
+#### Parameters
+
+##### Bucket
+The S3 bucket to put the policy
+
+##### Policy
+The policy to put (it is a string containing a JSON description of the policy. All quotes in the policy must hence be escaped)
+
+#### Reference Output Name
+S3PutBucketPolicyFunctionArn
+
+#### Example/Test Template
+[s3.putBucketPolicy.template](test/aws/s3.putBucketPolicy.template)
 
 ### Subscribe to SNS topics
 

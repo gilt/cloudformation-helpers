@@ -439,6 +439,61 @@
       "DependsOn": [
         "SnsSubscribeFunctionRole"
       ]
+    },
+    "SesCreateReceiptRuleFunctionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version" : "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [ "lambda.amazonaws.com" ]
+              },
+              "Action": [ "sts:AssumeRole" ]
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          { "Ref": "RoleBasePolicy" }
+        ],
+        "Policies": [
+          {
+            "PolicyName": "SESReceiptRuleModifier",
+            "PolicyDocument": {
+              "Version" : "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ses:CreateReceiptRule",
+                    "ses:DeleteReceiptRule"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "SesCreateReceiptRuleFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "com.gilt.public.backoffice",
+          "S3Key": "lambda_functions/cloudformation-helpers.zip"
+        },
+        "Description": "Used to create SES receipt rules.",
+        "Handler": "aws/ses.createReceiptRule",
+        "Role": {"Fn::GetAtt" : [ "SesCreateReceiptRuleFunctionRole", "Arn" ] },
+        "Runtime": "nodejs4.3",
+        "Timeout": 30
+      },
+      "DependsOn": [
+        "SesCreateReceiptRuleFunctionRole"
+      ]
     }
   },
   "Outputs": {
@@ -469,6 +524,10 @@
     "S3PutBucketPolicyFunctionArn": {
       "Description": "The ARN of the S3PutBucketPolicyFunction, for use in other CloudFormation templates.",
       "Value": { "Fn::GetAtt" : ["S3PutBucketPolicyFunction", "Arn"] }
+    },
+    "SesCreateReceiptRuleFunctionArn": {
+      "Description": "The ARN of the SesCreateReceiptRuleFunction, for use in other CloudFormation templates.",
+      "Value": { "Fn::GetAtt" : ["SesCreateReceiptRuleFunction", "Arn"] }
     }
   }
 }

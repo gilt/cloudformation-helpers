@@ -319,6 +319,24 @@ SnsSubscribeFunctionArn
 [sns.subscribe.template](test/aws/sns.subscribe.template)
 
 
+### Create a SES Receipt Rule
+
+Allows to create an SES Receipt Rule inside an existing SES Rule set (active or not).
+Mirrors the [SES.CreateReceipRule API method](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SES.html#createReceiptRule-property).
+This will delete the rule when the corresponding stack is deleted.
+
+#### Paramters
+
+See the reference above or the example below for full list of parameters. All parameters are directly passed 'as is' except boolean which are converted. 
+
+#### Reference Output Name
+SesCreateReceiptRuleFunctionArn
+
+#### Example/Test Template
+[ses.createReceiptRule.template](test/aws/ses.createReceiptRule.template)
+
+
+
 ## Deployment (contributors)
 After making changes (i.e. adding a new helper function), please do the following:
 

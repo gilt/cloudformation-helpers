@@ -93,7 +93,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "com.gilt.public.backoffice",
+          "S3Bucket": { "Fn::Join": [ ".", [ "com.gilt.public.backoffice", { "Ref" : "AWS::Region" } ] ] },
           "S3Key": "lambda_functions/cloudformation-helpers.zip"
         },
         "Description": "Used to create a full API in Api Gateway.",
@@ -148,7 +148,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "com.gilt.public.backoffice",
+          "S3Bucket": { "Fn::Join": [ ".", [ "com.gilt.public.backoffice", { "Ref" : "AWS::Region" } ] ] },
           "S3Key": "lambda_functions/cloudformation-helpers.zip"
         },
         "Description": "Used to populate a DynamoDB database from CloudFormation",
@@ -204,7 +204,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "com.gilt.public.backoffice",
+          "S3Bucket": { "Fn::Join": [ ".", [ "com.gilt.public.backoffice", { "Ref" : "AWS::Region" } ] ] },
           "S3Key": "lambda_functions/cloudformation-helpers.zip"
         },
         "Description": "Used to populate a DynamoDB database from CloudFormation",
@@ -260,7 +260,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "com.gilt.public.backoffice",
+          "S3Bucket": { "Fn::Join": [ ".", [ "com.gilt.public.backoffice", { "Ref" : "AWS::Region" } ] ] },
           "S3Key": "lambda_functions/cloudformation-helpers.zip"
         },
         "Description": "Used to create a Kinesis stream",
@@ -316,7 +316,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "com.gilt.public.backoffice",
+          "S3Bucket": { "Fn::Join": [ ".", [ "com.gilt.public.backoffice", { "Ref" : "AWS::Region" } ] ] },
           "S3Key": "lambda_functions/cloudformation-helpers.zip"
         },
         "Description": "Used to put objects into S3.",
@@ -427,7 +427,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "com.gilt.public.backoffice",
+          "S3Bucket": { "Fn::Join": [ ".", [ "com.gilt.public.backoffice", { "Ref" : "AWS::Region" } ] ] },
           "S3Key": "lambda_functions/cloudformation-helpers.zip"
         },
         "Description": "Used to subscribe to existing SNS topics.",

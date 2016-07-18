@@ -12,7 +12,7 @@ general manner - much the same way CloudFormation itself has permission to do al
 
 
 ## Usage
-1. Use https://s3.amazonaws.com/com.gilt.public.backoffice/cloudformation_templates/create_cloudformation_helper_functions.template
+1. Use https://s3.amazonaws.com/com.gilt.public.backoffice.{your-region-here}/cloudformation_templates/create_cloudformation_helper_functions.template
    to deploy a stack that creates the Lambda functions for you. Remember the stack name.
 2. Include the following resources in your CloudFormation template. These will create a) a nested stack that
    looks up the ARNs from the previous step and b) a custom resource that allows your template to read those ARNs.
@@ -21,7 +21,7 @@ general manner - much the same way CloudFormation itself has permission to do al
    "CFHelperStack": {
      "Type": "AWS::CloudFormation::Stack",
      "Properties": {
-       "TemplateURL": "https://s3.amazonaws.com/com.gilt.public.backoffice/cloudformation_templates/lookup_stack_outputs.template"
+       "TemplateURL": { "Fn:Join": [ "", ["https://s3.amazonaws.com/com.gilt.public.backoffice", { "Ref": "AWS:Region" }, "/cloudformation_templates/lookup_stack_outputs.template" ] ] }
      }
    },
    "CFHelper": {
@@ -74,6 +74,13 @@ the helper stack. You can get around this by updating the stack instead of teari
 it. But it's probably a good idea to export the helper's DynamoDB table so you have a backup. If you lose
 the data, when you tear down client stacks, you may have to manually delete some resources created by the
 helpers.
+
+
+## A note on AWS Regions
+At times, AWS can be touchy when it comes to referencing resources across regions. With that in mind, this
+project is replicated to all regions - so you simply need to reference the version that lives in the S3
+bucket that corresponds to the region you're working in. If there is a new region that is not part of the
+ring of replications, please create an [issue](https://github.com/gilt/cloudformation-helpers/issues).
 
 
 ## Steps for adding a new included function
@@ -340,7 +347,7 @@ SesCreateReceiptRuleFunctionArn
 ## Deployment (contributors)
 After making changes (i.e. adding a new helper function), please do the following:
 
-1. Upload this zipped repo to the com.gilt.public.backoffice/lambda_functions bucket. To produce the .zip file:
+1. Upload this zipped repo to the com.gilt.public.backoffice.us-east-1/lambda_functions bucket. To produce the .zip file:
 
    ```
      zip -r cloudformation-helpers.zip . -x *.git* -x *cloudformation-helpers.zip*
@@ -349,7 +356,7 @@ After making changes (i.e. adding a new helper function), please do the followin
    Unfortunately we can't use the Github .zip file directly, because it zips the code into a subdirectory named after
    the repo; AWS Lambda then can't find the .js file containing the helper functions because it is not on the top-level.
 
-2. Upload the edited create_cloudformation_helper_functions.template to com.gilt.public.backoffice/cloudformation_templates
+2. Upload the edited create_cloudformation_helper_functions.template to com.gilt.public.backoffice.us-east-1/cloudformation_templates
 
 
 ## License

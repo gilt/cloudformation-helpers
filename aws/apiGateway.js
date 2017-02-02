@@ -29,6 +29,13 @@ CreateApi.prototype.handleCreate = function() {
             stageName: p.version
           })
           .then(function(deploymentData) {
+            // Total hack: there are limits to the number of API Gateway API calls you can make. So this function
+            // will fail if a CloudFormation template includes two or more APIs. Attempting to avoid this by blocking.
+            var until = new Date();
+            until.setSeconds(until.getSeconds() + 60);
+            while (new Date() < until) {
+              // Wait...
+            }
             // AWS.config.region is a bit of a hack, but I can't figure out how else to dynamically
             // detect the region of the API - seems to be nothing in API Gateway or AWS Lambda context.
             // Could possibly get it from the CloudFormation stack, but that seems wrong.

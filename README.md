@@ -1,5 +1,5 @@
 # cloudformation-helpers
-A collection of AWS Lambda funtions that fill in the gaps that existing CloudFormation resources do not cover.
+A collection of AWS Lambda functions that fill in the gaps that existing CloudFormation resources do not cover.
 
 AWS CloudFormation supports Custom Resources (http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html),
 which can be used to call AWS Lambda functions. CloudFormation covers much of the AWS API landscape, but
@@ -150,7 +150,7 @@ A JSON array of (see the example template below for a working example):
 1. The properties of the JSON document are either a) the HTTP method or b) a sub-resource.
 2. The resources cannot include a '/' - any resources nested in the path should also be nested
    in the JSON document.
-3. The parameters of each http method object are the same as putMethod callh ere:
+3. The parameters of each http method object are the same as putMethod call here:
    http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/APIGateway.html#putMethod-property -
    except that httpMethod, resourceId, and restApiId will be added for you.
 4. Each http method object can also optionally specify an "integration" property, which follows
@@ -329,10 +329,10 @@ SnsSubscribeFunctionArn
 ### Create a SES Receipt Rule
 
 Allows to create an SES Receipt Rule inside an existing SES Rule set (active or not).
-Mirrors the [SES.CreateReceipRule API method](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SES.html#createReceiptRule-property).
+Mirrors the [SES.CreateReceiptRule API method](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SES.html#createReceiptRule-property).
 This will delete the rule when the corresponding stack is deleted.
 
-#### Paramters
+#### Parameters
 
 See the reference above or the example below for full list of parameters. All parameters are directly passed 'as is' except boolean which are converted. 
 
